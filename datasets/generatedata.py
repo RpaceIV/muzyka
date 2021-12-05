@@ -1,3 +1,4 @@
+import testLastfm.py as fm
 import csv
 
 # Create a list of column names.
