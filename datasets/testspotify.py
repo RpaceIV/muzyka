@@ -17,7 +17,7 @@ SubGenre = namedtuple('SubGenre', 'name,prior_prob,song_amount')
 sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
 
-def main(search_str, subg, dfTwo, subgenre):
+def main(search_str, subg, dfTwo, subgenre, block):
 
     # TODO fill in this with corresponding cell of the excel sheet
 
@@ -36,17 +36,35 @@ def main(search_str, subg, dfTwo, subgenre):
 
     type_str = 'playlist'
     market_str = 'US'
-    limit_int = 1
+    limit_int = 50
     offs = 0
 
-    # this returns a type dict and is stored in result
-    search_result = sp.search(
-        search_str, limit_int, offs, type_str, market_str)
-    # pprint.pprint(result['playlists']['items'][0]['id'])
+    search_result = sp.search(search_str, limit_int,
+                              offs, type_str, market_str)
+
+    if len(search_result['playlists']['items'][0]['name']) > len(search_str) and block == 1:
+        for playnum in range(limit_int-1):
+            if search_result['playlists']['items'][playnum]['name'] == search_str or "THE SOUND OF "+subgenre.name.upper() == search_str.upper():
+                '''playlist name'''
+                playlist_name = search_result['playlists']['items'][playnum]['name']
+                break
+
+            playlist_name = search_result['playlists']['items'][0]['name']
+    else:
+        playlist_name = search_result['playlists']['items'][0]['name']
+
+        # this returns a type dict and is stored in result
+
+        # pprint.pprint(result['playlists']['items'][0]['id'])
 
     '''Get tracks from a playlist'''
     playlist_id = 'spotify:playlist:' + \
         search_result['playlists']['items'][0]['id']
+
+    print(block)
+
+    if playlist_name.upper() != "THE SOUND OF "+subgenre.name.upper() and block == 0:
+        raise IndexError("hello")
     # pl_id = 'spotify:playlist:5RIbzhG2QqdkaP24iXLnZX'
     # print()
     offset = 0
@@ -60,7 +78,7 @@ def main(search_str, subg, dfTwo, subgenre):
     # if len(response['items']) == 0:
     #     break
     # pprint(response['items'])
-    time.sleep(2)
+    time.sleep(6)
     for s in range(subgenre.song_amount):
         # print(s)
         track_id = tracks['items'][s]['track']['id']
@@ -71,8 +89,8 @@ def main(search_str, subg, dfTwo, subgenre):
 
         '''Track Name'''
         track = sp.track(track_id)
-        data = [[df['Name'][subg], track['name'], track['album']['artists']
-                 [0]['name'], track['album']['name']]]
+        data = [[playlist_name, track['name'], track['album']['artists']
+                 [0]['name'], track['album']['name'], df['genre'][subg], df['Name'][subg], df['prior_prob'][subg]]]
         dfTwo = pd.DataFrame(data)
         dfTwo.to_csv("test.csv", index=False, mode='a',
                      header=False)
@@ -94,7 +112,8 @@ def main(search_str, subg, dfTwo, subgenre):
 
 
 if __name__ == "__main__":
-    data = [['subgenre', 'song', 'artist', 'album']]
+    data = [['playlist_name', 'song', 'artist',
+             'album', 'genre', 'subgenre', 'prior_prob']]
     dfTwo = pd.DataFrame(data)
     dfTwo.to_csv("test.csv", index=False, mode='a',
                  header=False)
@@ -107,12 +126,16 @@ if __name__ == "__main__":
 
     for subg in range(120):
         try:
+            print("WORRRRRRRRRRRRRRRRRRRKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+            block = 0
             subgenre = SubGenre(df['Name'][subg], df['prior_prob']
                                 [subg], int(df['song_amount'][subg]))
-            search_str = 'playlist:The Sound of '+subgenre.name+' AND The Sounds of Spotify'
-            main(search_str, subg, dfTwo, subgenre)
+            search_str = 'The Sound of '+subgenre.name  # +' AND The Sounds of Spotify'
+            main(search_str, subg, dfTwo, subgenre, block)
         except IndexError:
+            print("SHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESHHHSHHHHHHH")
+            block = 1
             subgenre = SubGenre(df['Name'][subg], df['prior_prob']
                                 [subg], int(df['song_amount'][subg]))
             search_str = subgenre.name
-            main(search_str, subg, dfTwo, subgenre)
+            main(search_str, subg, dfTwo, subgenre, block)
