@@ -18,10 +18,10 @@ import time
 
 class SubGenre:
     def __init__(self,name,prior_prob,song_amount,parent_genre):
-        self.parent_genre = parent_genre
         self.name = name
         self.prior_prob = prior_prob
         self.song_amount = song_amount
+        self.parent_genre = parent_genre
 
 class Song:
     def __init__(self,genre,subgenre,prior_prob):
@@ -41,51 +41,53 @@ class Song:
 
 sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
-def answerquestion(self, song):
+def answerquestion(song):
     '''Q1'''
-    if song.metadata['popularity'] > 70:
-        song.questions[0] = 'a' #yes
+    if song.popularity > 58:
+        song.questions.append('a') #yes
     else:
-        song.questions[0] = 'b' #no
+        song.questions.append('b') #no
 
     '''Q2'''
     if song.genre == 'World':
-        song.questions[1] = 'a' #yes
+        song.questions.append('a') #yes
     else:
-        song.questions[1] = 'b' #no
+        song.questions.append('b') #no
 
     '''Q3'''
     if song.genre == 'electronic':
-        song.questions[2] = 'a'
+        song.questions.append('a')
     elif song.genre == 'rap':
-        song.questions[2] = 'b'
+        song.questions.append('b')
     elif song.genre == 'rock':
-        song.questions[2] = 'c'
+        song.questions.append('c')
     elif song.genre == 'jazz':
-        song.questions[2] = 'd'
+        song.questions.append('d')
     else:
-        song.questions[2] = 'e' # Classical
+        song.questions.append('e') # Classical
 
     '''Q4'''
-    if song.metadata['instrumentalness'] > 0.5:
-        song.questions[3] = 'a' #beats
+    if song.metadata[0]['instrumentalness'] > 0.5:
+        song.questions.append('a') #beats
     else:
-        song.questions[3] = 'b' #vocals
+        song.questions.append('b') #vocals
 
-    # song.metadata['danceability'] > 0.5 and song.mmetadata['energy'] > 0.5 and song.mmetadata['loudness'] > 0.5 and song.mmetadata['valence'] > 0.9:
+    # song.metadata['danceability'] > 0.5 and song.metadata['energy'] > 0.5 and song.metadata['loudness'] > 0.5 and song.metadata['valence'] > 0.9:
     '''Q5'''
-    if song.metadata['danceability'] > 0.6 and song.mmetadata['energy'] > 0.5 and song.mmetadata['valence'] > 0.9:
-        song.questions[4] = 'a' #happy
-    elif song.metadata['danceability'] < 0.1 and song.mmetadata['energy'] < 0.1 and song.mmetadata['valence'] < 0.3:
-        song.questions[4] = 'b' #sad
-    elif song.mmetadata['energy'] > 0.7 and song.mmetadata['loudness'] > 0.6 and song.mmetadata['valence'] < 0.3:
-        song.questions[4] = 'c' #angry
-    elif song.metadata['danceability'] > 0.7 and song.mmetadata['energy'] > 0.8 and song.mmetadata['loudness'] > 0.6 and song.mmetadata['valence'] > 0.9:
-        song.questions[4] = 'd' #hyped
-    elif song.metadata['danceability'] > 0.5 and song.mmetadata['energy'] > 0.5 and song.mmetadata['loudness'] > 0.5 and song.mmetadata['valence'] > 0.5:
-        song.questions[4] = 'e' #relaxed
-    elif song.metadata['danceability'] > 1.0 and song.mmetadata['energy'] > 1.0 and song.mmetadata['loudness'] > 1.0 and song.mmetadata['valence'] > 1.0:
-        song.questions[4] = 'f' #sensual
+    if song.metadata[0]['danceability'] > 0.6 and song.metadata[0]['energy'] > 0.5 and 0.5 < song.metadata[0]['valence']: # 0.5 > valence < 0.8
+        song.questions.append('a') #happy
+    elif song.metadata[0]['danceability'] < 0.5 and song.metadata[0]['energy'] < 0.3 and song.metadata[0]['valence'] < 0.35:
+        song.questions.append('b') #sad
+    elif song.metadata[0]['energy'] > 0.79 and 0.1 > song.metadata[0]['valence'] < 0.3:
+        song.questions.append('c') #angry
+    elif 0.5 < song.metadata[0]['danceability'] < 0.79 and song.metadata[0]['energy'] > 0.8 and 0.6 < song.metadata[0]['valence'] < 0.75: # valence > 0.8
+        song.questions.append('d') #hyped
+    elif song.metadata[0]['danceability'] > 0.5 and 0.3 < song.metadata[0]['energy'] < 0.7: # 0.4 > valence < 0.6
+        song.questions.append('e') #relaxed
+    elif 0.4 < song.metadata[0]['danceability'] < 0.6 and 0.59 < song.metadata[0]['energy'] < 0.69 and 0.6 < song.metadata[0]['valence'] < 0.75: # 0.1 > valence < 0.5
+        song.questions.append('f') #sensual
+    else:
+        song.questions.append('z')
     
     return song
 
@@ -103,6 +105,7 @@ def main(search_str, subg, dfTwo, subgenre, block):
     '''Selects the playlist'''
     if len(search_result['playlists']['items'][0]['name']) > len(search_str) and block == 1:
         for playnum in range(limit_int-1):
+            print(['playlists']['items'][playnum]['name'])
             if search_result['playlists']['items'][playnum]['name'] == search_str or "THE SOUND OF "+subgenre.name.upper() == search_str.upper():
                 '''playlist name'''
                 playlist_name = search_result['playlists']['items'][playnum]['name']
@@ -128,51 +131,62 @@ def main(search_str, subg, dfTwo, subgenre, block):
 
     time.sleep(6)
 
-    for s in range(subgenre.song_amount):
-        song = Song()
+    for s in range(3):#range(subgenre.song_amount):
+        song = Song(subgenre.parent_genre, subgenre.name, subgenre.prior_prob)
 
         song.trackid = tracks['items'][s]['track']['id']
         # pprint(song.trackid)
 
         '''Track Name'''
-        song.name = sp.track(song.trackid)
+        track = sp.track(song.trackid)
+        song.name = track['name']
+        song.artist = track['album']['artists'][0]['name']
+        song.album = track['album']['name']
+
         
-        print('\n', song.name['name'])  # Name
-        print(song.name['album']['artists'][0]['name'])  # artist
-        print(song.name['album']['name'], '\n')  # album
+        print('\n', song.name)  # Name
+        print(song.artist)  # artist
+        print(song.album, '\n')  # album
 
         '''Audio Features'''
         sp.trace = True
 
         start = time.time()
         song.metadata = sp.audio_features(song.trackid)
-        song.popularity
+        song.popularity = track['popularity']
+
+        print()
+        print(song.popularity)
+        print(song.metadata[0]['danceability'])
+        print(song.metadata[0]['energy'] )
+        print(song.metadata[0]['loudness'])
+        print(song.metadata[0]['valence'])
+        print()
 
         delta = time.time() - start
         print("features retrieved in %.2f seconds" % (delta,))
-        
 
         song = answerquestion(song)
 
-        data = [[playlist_name, song.name['name'], song.name['album']['artists']
-                 [0]['name'], song.name['album']['name'], df['genre'][subg], df['Name'][subg], df['prior_prob'][subg]]]
+        data = [[playlist_name, song.name, song.artist, song.album, song.genre, song.subgenre, song.prior_prob, song.questions[0],song.questions[1],song.questions[2],song.questions[3],song.questions[4],song.popularity,song.metadata[0]['danceability'], song.metadata[0]['energy'],song.metadata[0]['loudness'],song.metadata[0]['valence']]]
         dfTwo = pd.DataFrame(data)
-        dfTwo.to_csv("test.csv", index=False, mode='a', header=False)
+        dfTwo.to_csv("test2.csv", index=False, mode='a', header=False)
         
 
 if __name__ == "__main__":
-    data = [['playlist_name', 'song', 'artist', 'album', 'genre', 'subgenre', 'prior_prob']]
+    data = [['playlist_name', 'song', 'artist', 'album', 'genre', 'subgenre', 'prior_prob', 'q1', 'q2', 'q3', 'q4', 'q5','popularity','danceability','energy','loudness','valence']]
     dfTwo = pd.DataFrame(data)
 
-    dfTwo.to_csv("test.csv", index=False, mode='a', header=False)
+    dfTwo.to_csv("test2.csv", index=False, mode='a', header=False)
     df = pd.read_csv('curated_subgenres_data.csv')
     print(df.head())
     # print(df['Name'][0], df['prior_prob'][0], df['song_amount'][0])
 
     # subgenres = []
+    
 
-    for subg in range(120):
-        subgenre = SubGenre(df['Name'][subg], df['prior_prob'][subg], int(df['song_amount'][subg]))
+    for subg in range(86,89):
+        subgenre = SubGenre(df['Name'][subg], df['prior_prob'][subg], int(df['song_amount'][subg]), df['genre'][subg])
         
         try:
             print("WORRRRRRRRRRRRRRRRRRRKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")

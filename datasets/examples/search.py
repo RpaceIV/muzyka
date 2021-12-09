@@ -8,15 +8,17 @@ import pprint
 if len(sys.argv) > 1:
     search_str = sys.argv[1]
 else:
-    search_str = 'THE SOUND OF TRANCE'
-    type_str = 'playlist'
-    market_str = None
+    # search_str = 'THE SOUND OF TRANCE'
+    # type_str = 'playlist'
+    search_str = 'track:Lionhearted artist:Porter Robinson'
+    type_str = 'track,artist'
+    market_str = 'US'
     limit_int = 1
     offs = 0
     total = 50
 
 sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-# result = sp.search(search_str, limit_int, offs, type_str, market_str)
-result = sp.search_markets(search_str, limit_int,
-                           offs, type_str, market_str, total)
+result = sp.search(search_str, limit_int, offs, type_str, market_str)
+# result = sp.search_markets(search_str, limit_int,
+#                            offs, type_str, market_str, total)
 pprint.pprint(result)
