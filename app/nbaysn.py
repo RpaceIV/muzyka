@@ -4,10 +4,10 @@ from math import sqrt
 from math import exp
 from math import pi
 import pandas as pd
+import math
 
 def str_column_to_float(dataset,column):
     # print(dataset)
-
     for row in dataset:
         print(row[column])
         row[column] = float(row[column].strip())
@@ -42,8 +42,9 @@ def mean(numbers):
 # Calculate the standard deviation of a list of numbers
 def stdev(numbers):
     avg = mean(numbers)
-    variance = sum([(x-avg)**2 for x in numbers]) / float(len(numbers)-1)
+    variance = sum([pow(x - avg, 2) for x in numbers]) / float(len(numbers) - 1)
     return sqrt(variance)
+    
  
 # Calculate the mean, stdev and count for each column in a dataset
 def summarize_dataset(dataset):
@@ -59,9 +60,20 @@ def summarize_by_class(dataset):
         summaries[class_value] = summarize_dataset(rows)
     return summaries
 
-def calculate_probability(x,mean,stdev):
-    exponent = exp(-((x-mean)**2 / (2 * stdev**2 )))
-    return (1 / (sqrt(2 * pi) * stdev)) * exponent
+def calculate_probability(x, mean, stdev):
+    exponent = math.exp(-(math.pow(x - mean, 2) / (2 * math.pow(stdev, 2))))
+    print (stdev,"||",exponent)
+    print (2 * math.pow(stdev, 2))
+
+    try:
+        return (1 / (math.sqrt(2 * math.pi) * stdev)) * exponent
+
+    except ZeroDivisionError:
+        return 0
+
+# def calculate_probability(x,mean,stdev):
+#     exponent = exp(-((x-mean)**2 / (2 * stdev**2 )))
+#     return (1 / (sqrt(2 * pi) * stdev)) * exponent
 
 def calculate_class_probabilities(summaries, row):
     total_rows = sum([summaries[label][0][2] for label in summaries])
@@ -110,9 +122,9 @@ if __name__ == "__main__":
     # convert class column to integers
     str_column_to_int(dataset, len(dataset[0])-1)
     # fit model
-    model = summarize_by_class(dataset)
+    # model = summarize_by_class(dataset)
     # # define a new record
-    # row = [5.7,2.9,4.2,1.3]
+    # row = [1.0,2.0,2.0,2.0,4.0] TODO
     # # predict the label
     # label = predict(model, row)
     # print('Data=%s, Predicted: %s' % (row, label))
