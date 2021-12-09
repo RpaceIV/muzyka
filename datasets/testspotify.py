@@ -2,7 +2,6 @@ from __future__ import print_function
 # import requests
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
-import sys
 from pprint import pprint
 # import pprint
 from collections import namedtuple
