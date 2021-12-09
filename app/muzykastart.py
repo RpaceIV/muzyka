@@ -6,11 +6,14 @@ import seaborn as sns; sns.set(color_codes=True)
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
+from ordered_set import OrderedSet
 # %matplotlib inline
 
 def str_column_to_int(dataset, column):
     class_values = [row[column] for row in dataset]
-    unique = set(class_values)
+    # print(set(class_values))
+    unique = OrderedSet(class_values)
+    # print(unique)
     lookup = dict()
     for i, value in enumerate(unique):
         lookup[value] = i
@@ -59,9 +62,62 @@ if __name__ == "__main__":
     # print(class_lables)
     clf = GaussianNB()
 
+    # print(dataset)
     clf.fit(dataset,class_lables)
 
-    print(clf.predict([[1.0,2.0,2.0,2.0,4.0]]))
+    questions = [
+    "Do you like pop?\na) yes \tb)no \n :",
+    "Do you like foreign music outside of the United States?\na) yes \tb)no \n :",
+    "What is your favorite main genre?\na) Electronic \tb) Rap \n \nc) Rock \td) Jazz \n\ne) Classical \n :",
+    "Do you like beats or vocals?\na) yes \tb)no \n :",
+    "What mood do you want to be in?\na) Happy \tb) Sad \n c) Angry \td) Hyped \n e) Relaxed \td) Sensual \n :"]
+
+    answers = []
+    response = ''
+
+    for question in questions:
+        response = input(question)
+        # answers.append(input(question))
+        while True:
+            if response.upper() == 'A':
+                answers.append(1.0)
+                break
+            elif response.upper() == 'B':
+                answers.append(2.0)
+                break
+            elif response.upper() == 'C':
+                answers.append(3.0)
+                break
+            elif response.upper() == 'D':
+                answers.append(4.0)
+                break
+            elif response.upper() == 'E':
+                answers.append(5.0)
+                break
+            elif response.upper() == 'F':
+                answers.append(6.0)
+                break
+            else:
+                print("Invalid response try again")
+
+    print(answers)
+
+    # print(clf.predict_proba([[1.0,2.0,1.0,2.0,1.0]]))
+    # print(clf.predict([[1.0,2.0,1.0,2.0,4.0]]))
+
+    # plt.scatter(dataset[:, 0], dataset[:, 1], c=class_lables, s=10, cmap='RdBu');
+
+    # print(clf.predict([answers[0],answers[1],answers[2],answers[3],answers[4]]))
+
+    predicted_song = clf.predict([answers])
+
+    prediction_distrabution = clf.predict_proba([answers])
+    print(predicted_song)
+
+    print(prediction_distrabution)
+
+    # print(prior_probs[bruh][0])
+    
 
     # gnb = GaussianNB()
 
