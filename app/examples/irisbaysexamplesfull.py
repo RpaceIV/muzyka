@@ -18,6 +18,7 @@ def load_csv(filename):
 # Convert string column to float
 def str_column_to_float(dataset, column):
 	for row in dataset:
+		# print(row[column])
 		row[column] = float(row[column].strip())
  
 # Convert string column to integer
@@ -96,10 +97,14 @@ def predict(summaries, row):
 # Make a prediction with Naive Bayes on Iris Dataset
 filename = 'iris.csv'
 dataset = load_csv(filename)
+print(dataset[0][4])
 for i in range(len(dataset[0])-1):
 	str_column_to_float(dataset, i)
+print(type(dataset[0][4]))
+print(dataset[0])
 # convert class column to integers
 str_column_to_int(dataset, len(dataset[0])-1)
+# print(dataset[0][4])
 # fit model
 model = summarize_by_class(dataset)
 # define a new record
