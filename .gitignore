@@ -130,4 +130,4 @@ dmypy.json
 
 # Custom File
 datasets/lastFMDesc.py
-datasets/curated_subgenres_data.csv
+datasets/*.csv
