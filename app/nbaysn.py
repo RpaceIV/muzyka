@@ -23,7 +23,7 @@ def mean(numbers):
 # Calculate the standard deviation of a list of numbers
 def stdev(numbers):
     avg = mean(numbers)
-    variance = sum([(x-avg)**2 for x in numbers]) / float(len(numbers)-1)
+    variance = sum([(x-avg)**4 for x in numbers]) / float(len(numbers)-1)
     return sqrt(variance)
  
 # Calculate the mean, stdev and count for each column in a dataset
@@ -55,15 +55,36 @@ if __name__ == "__main__":
     #             ['The Sound of Hard Bop','True Blue,Tina Brooks,True Blue','jazz','hard bop',0.008725868000000001,2,2,4,1,5,41,0.631,0.514,-6.68,0.768]]
     
 
-    dataset = [[2,2,1,2,3,0],#'deep house'],
-                [1,2,3,2,4,1],#'swancore'],
-                [2,1,3,2,5,2],#'swancore'],
-                [2,2,4,1,2,3],#'hard bop'],
-                [1,2,4,4,5,4],#'hard bop'],
-                [2,2,4,1,1,5]]#'hard bop']]
+    dataset = [[2.3,2,1,2,3,0],#'deep house'],
+                [2,3,4,5,1,2,0],
+                [1,2.2,3,2,4,2],#'swancore'],
+                [2,1,3.4,2,5,2],#'swancore'],
+                [2,2,4,1.5,2,3],#'hard bop'],
+                [1,2,4,4,5.6,3],#'hard bop'],
+                [2,2,4,1,1.1,3]]#'hard bop']]
     
-    summary = summarize_dataset(dataset)
-    print(summary)
+    # dataset = [[3,2,3,0],#'deep house'],
+    #             [2,3,2,0],#'swancore'],
+    #             [4,2,5,1],#'swancore'],
+    #             [5,5,2,1],#'hard bop'],
+    #             [2,5.6,2],#'hard bop'],
+    #             [1,4.1,2],
+    #             [1,3.2,3],
+    #             [5,1.1,3]]#'hard bop']]
+
+    # dataset = [[3.393533211,2.331273381,0],
+    #     [3.110073483,1.781539638,0],
+    #     [1.343808831,3.368360954,0],
+    #     [3.582294042,4.67917911,0],
+    #     [2.280362439,2.866990263,0],
+    #     [7.423436942,4.696522875,1],
+    #     [5.745051997,3.533989803,1],
+    #     [9.172168622,2.511101045,1],
+    #     [7.792783481,3.424088941,1],
+    #     [7.939820817,0.791637231,1]]
+
+    # summary = summarize_dataset(dataset)
+    # print(summary)
 
     # separated = separate_by_class(dataset)
     # print(separated)
@@ -71,11 +92,11 @@ if __name__ == "__main__":
     #     print(label)
     #     for row in separated[label]:
     #         print(row)
-    # summary = summarize_by_class(dataset)
-    # for label in summary:
-    #     print(label)
-    #     for row in summary[label]:
-    #         print(row)
+    summary = summarize_by_class(dataset)
+    for label in summary:
+        print(label)
+        for row in summary[label]:
+            print(row)
 
     # print(df.head())
 
