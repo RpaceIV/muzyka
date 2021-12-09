@@ -225,7 +225,7 @@ def main(search_str, subg, dfTwo, subgenre, block):
 
     time.sleep(6)
 
-    for s in range(3):  # range(subgenre.song_amount):
+    for s in range(subgenre.song_amount):
         song = Song(subgenre.parent_genre, subgenre.name, subgenre.prior_prob)
 
         song.trackid = tracks['items'][s]['track']['id']
@@ -264,7 +264,7 @@ def main(search_str, subg, dfTwo, subgenre, block):
         data = [[playlist_name, song.name, song.artist, song.album, song.genre, song.subgenre, song.prior_prob, song.questions[0], song.questions[1], song.questions[2],
                  song.questions[3], song.questions[4], song.popularity, song.metadata[0]['danceability'], song.metadata[0]['energy'], song.metadata[0]['loudness'], song.metadata[0]['valence']]]
         dfTwo = pd.DataFrame(data)
-        dfTwo.to_csv("test3.csv", index=False, mode='a', header=False)
+        dfTwo.to_csv("test4.csv", index=False, mode='a', header=False)
 
 
 if __name__ == "__main__":
@@ -272,7 +272,7 @@ if __name__ == "__main__":
              'q2', 'q3', 'q4', 'q5', 'popularity', 'danceability', 'energy', 'loudness', 'valence']]
     dfTwo = pd.DataFrame(data)
 
-    dfTwo.to_csv("test3.csv", index=False, mode='a', header=False)
+    dfTwo.to_csv("test4.csv", index=False, mode='a', header=False)
     df = pd.read_csv('curated_subgenres_data.csv')
     print(df.head())
     # print(df['Name'][0], df['prior_prob'][0], df['song_amount'][0])
