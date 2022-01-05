@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # print(len(iris.target)) #class lables list
 
     # dfTwo.to_csv("test2.csv", index=False, mode=1, header=False)
-    dataframe = pd.read_csv('../datasets/test4.csv')
+    dataframe = pd.read_csv('../datasets/song_dataset.csv')
     # print(dataset['song'])
 
     # Make a prediction with Naive Bayes on Iris Dataset
@@ -40,14 +40,16 @@ if __name__ == "__main__":
     itty_tracker = 0
     class_lables = list()
     prior_probs = list()
-
+    parent_genres = list()
 
     for column in range(1268):
         dataset.append([float(dataframe['q1'][column]),float(dataframe['q2'][column]),float(dataframe['q3'][column]),float(dataframe['q4'][column]),float(dataframe['q5'][column]),dataframe['subgenre'][column]])
-        itty_tracker += 1
-        if itty_tracker%3 == 0:
-            prior_probs.append([dataframe['subgenre'][column],dataframe['prior_prob'][column]])
+        parent_genres.append(dataframe['genre'][column])
+        # itty_tracker += 1
+        # if itty_tracker%3 == 0:
+        #     prior_probs.append([dataframe['subgenre'][column],dataframe['prior_prob'][column]])
 
+    parent_genres = OrderedSet(parent_genres)
 
     # convert class column to integers
     str_column_to_int(dataset, len(dataset[0])-1)
@@ -114,7 +116,9 @@ if __name__ == "__main__":
     prediction_distrabution = clf.predict_proba([answers])
     print(predicted_song)
 
+    # print(prior_probs)
     print(prediction_distrabution)
+    # for genre in parent_genres:
 
     # print(prior_probs[bruh][0])
     
