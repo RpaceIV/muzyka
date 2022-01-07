@@ -71,7 +71,7 @@ if __name__ == "__main__":
     "Do you like pop?\na) yes \tb)no \n :",
     "Do you like foreign music outside of the United States?\na) yes \tb)no \n :",
     "What is your favorite main genre?\na) Electronic \tb) Rap \n \nc) Rock \td) Jazz \n\ne) Classical \n :",
-    "Do you like beats or vocals?\na) yes \tb)no \n :",
+    "Do you like beats or vocals?\na) beats \tb) vocals \n :",
     "What mood do you want to be in?\na) Happy \tb) Sad \n c) Angry \td) Hyped \n e) Relaxed \td) Sensual \n :"]
 
     answers = []

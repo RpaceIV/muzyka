@@ -130,4 +130,4 @@ dmypy.json
 
 # Custom File
 datasets/lastFMDesc.py
-datasets/*.csv
+# datasets/*.csv
