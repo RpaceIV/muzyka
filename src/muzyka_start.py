@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # print(len(iris.target)) #class lables list
 
     # dfTwo.to_csv("test2.csv", index=False, mode=1, header=False)
-    dataframe = pd.read_csv('../datasets/song_dataset.csv')
+    dataframe = pd.read_csv('datasets/csv_data/song_dataset.csv')
     # print(dataset['song'])
 
     # Make a prediction with Naive Bayes on Iris Dataset

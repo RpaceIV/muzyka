@@ -1,9 +1,7 @@
 from __future__ import print_function
-# import requests
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 from pprint import pprint
-# import pprint
 from collections import namedtuple
 
 import json
@@ -11,6 +9,7 @@ import time
 import sys
 import pandas as pd
 import time
+
 
 # SubGenre = namedtuple('SubGenre', 'name,prior_prob,song_amount')
 # SongInfo = namedtuple('SongInfo', 'song,artist,album,genre,subgenre,prior_prob,q1,q2,q3,q4,q5')
@@ -39,10 +38,6 @@ class Song:
         self.trackid = 0
         self.popularity = 0
         self.metadata = dict()
-
-
-sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-
 
 def answerquestion(song):
     '''Q1'''
@@ -222,7 +217,6 @@ def main(search_str, subg, dfTwo, subgenre, block):
                                offset=offs,
                                fields='items.track.id,total',
                                additional_types=['track'])
-
     time.sleep(6)
 
     for s in range(3):  # range(subgenre.song_amount):
@@ -264,16 +258,17 @@ def main(search_str, subg, dfTwo, subgenre, block):
         data = [[playlist_name, song.name, song.artist, song.album, song.genre, song.subgenre, song.prior_prob, song.questions[0], song.questions[1], song.questions[2],
                  song.questions[3], song.questions[4], song.popularity, song.metadata[0]['danceability'], song.metadata[0]['energy'], song.metadata[0]['loudness'], song.metadata[0]['valence']]]
         dfTwo = pd.DataFrame(data)
-        dfTwo.to_csv("test3.csv", index=False, mode='a', header=False)
+        dfTwo.to_csv("datasets/csv_data/song_dataset_out.csv", index=False, mode='a', header=False)
 
 
 if __name__ == "__main__":
+    sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
     data = [['playlist_name', 'song', 'artist', 'album', 'genre', 'subgenre', 'prior_prob', 'q1',
              'q2', 'q3', 'q4', 'q5', 'popularity', 'danceability', 'energy', 'loudness', 'valence']]
     dfTwo = pd.DataFrame(data)
 
-    dfTwo.to_csv("test3.csv", index=False, mode='a', header=False)
-    df = pd.read_csv('curated_subgenres_data.csv')
+    dfTwo.to_csv("datasets/csv_data/song_dataset_out.csv", index=False, mode='a', header=False)
+    df = pd.read_csv('datasets/csv_data/curated_subgenres_data.csv')
     print(df.head())
     # print(df['Name'][0], df['prior_prob'][0], df['song_amount'][0])
 
