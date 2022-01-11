@@ -1,0 +1,39 @@
+body, html {
+    margin: 0px;
+    padding:0px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.body {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.body-title {
+    font-size: 82px;
+    margin: 10px;
+    /* border: 2px solid red; */
+}
+
+.questions{
+    font-size: 17px;
+    height: 495px;
+    padding: 5px;
+}
+
+.footer{
+    color: #FFFFFF;
+    background: #000000;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.footerTxt{
+    font-size: 14px;
+    font-weight: 800;
+}

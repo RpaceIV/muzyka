@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% extends 'base.html' %} {% block head %}
+    <title>Muzyka | Subgenre</title>
+    {% endblock %} {% block body %}
+  </head>
+  <body>
+    <section class="bg-light text-dark p-4 text-sm-start">
+      <div class="container">
+        <h1 class="text-center">
+          Subgenre: {{ subgenre.title() }}
+        </h1>
+      </div>
+    </section>
+  </body>
+</html>
+{% endblock %}

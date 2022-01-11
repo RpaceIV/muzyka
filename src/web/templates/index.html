@@ -1,0 +1,123 @@
+{% extends 'base.html' %} {% block head %}
+<title>Muzyka</title>
+{% endblock %} {% block body %}
+
+<form method="POST">
+  <!-- <div class="body">
+    <div class="body-title">
+      <p style="margin-bottom: 10px; margin-top: 15px;">Muzyka</p>
+    </div> -->
+
+  <!-- Title -->
+  <section class="bg-black text-light p-4 text-sm-start">
+    <div class="container">
+      <h1 class="text-center">
+        Muzyka
+        <i class="bi bi-music-note"></i>
+      </h1>
+    </div>
+  </section>
+
+  <!-- Questions -->
+  <section class="bg-dark text-light p-5 text-center text-sm-start">
+    <div class="container">
+      <p class="lead">1. Do you like pop? a. yes b. no</p>
+      <div class="input-group input-group-md mb-3">
+        <input
+          name="q1"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <p class="lead">
+        2. Do you like foreign music outside of the United States? a. yes b. no
+      </p>
+      <div class="input-group input-group-md mb-3">
+        <input
+          name="q2"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <p class="lead">
+        3. What is your favorite main genre? a. Electronic b. Rap c. Rock d.
+        Jazz e. Classical
+      </p>
+      <div class="input-group input-group-md mb-3">
+        <input
+          name="q3"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <p class="lead">4. Do you like beats or vocals? a. beats b. vocals</p>
+      <div class="input-group input-group-md mb-3">
+        <input
+          name="q4"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <p class="lead">
+        5. What mood do you want to be in? a. Happy b. Sad c. Angry d. Hyped e.
+        Relaxed d. Sensual
+      </p>
+      <div class="input-group input-group-md mb-3">
+        <input
+          name="q5"
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary btn-md">Submit</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="p-5 bg-black text-light text-center position-relative">
+    <div class="container">
+      <p class="lead">Copyright &copy; Muzyka 2022</p>
+      <!-- <a href="#" class="position-absolute bottom-0 end-0 p-5">
+        <i class="bi bi-arrow-up-circle h1"></i>
+      </a> -->
+    </div>
+  </footer>
+
+  <!-- <div class="questions">
+      <p>1. Do you like pop? a. yes b. no</p>
+      <input name="q1" type="text" />
+      <p>
+        2. Do you like foreign music outside of the United States? a. yes b. no
+      </p>
+      <input name="q2" type="text" />
+      <p>
+        3. What is your favorite main genre? a. Electronic b. Rap c. Rock d.
+        Jazz e. Classical
+      </p>
+      <input name="q3" type="text" />
+      <p>4. Do you like beats or vocals? a. yes b. no</p>
+      <input name="q4" type="text" />
+      <p>
+        5. What mood do you want to be in? a. Happy b. Sad c. Angry d. Hyped e.
+        Relaxed d. Sensual
+      </p>
+      <input name="q5" type="text" /><br /><br />
+      <input type="submit" value="Submit" />
+    </div>
+  </div> -->
+
+  <!-- <div class="footer">
+    <div class="footerTxt"><p>Copyright © Robert Pace & Allen Rivas 2022</p></div>
+  </div> -->
+</form>
+{% endblock %}
