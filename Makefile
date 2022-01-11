@@ -5,7 +5,7 @@ run:
 
 web:
 	source src/web/env/bin/activate
-	python src/web/app.py
+	python3 src/web/app.py
 
 clean:
 	rm datasets/csv_data/song_dataset_out.csv
