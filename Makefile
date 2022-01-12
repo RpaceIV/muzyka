@@ -1,6 +1,9 @@
 SHELL := /bin/bash
 
-run:
+start:
+	python3 src/muzyka_start.py
+
+generate:
 	python3 src/muzyka_genreate.py
 
 web:

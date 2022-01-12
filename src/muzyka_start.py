@@ -7,6 +7,8 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
 from ordered_set import OrderedSet
+import numpy as np
+import matplotlib.pyplot as plt
 # %matplotlib inline
 
 def str_column_to_int(dataset, column):
@@ -20,7 +22,9 @@ def str_column_to_int(dataset, column):
         print('[%s] => %d' % (value, i))
     for row in dataset:
         row[column] = lookup[row[column]]
-    return lookup
+    # print(lookup)
+    # return lookup
+    return unique
 
 
 if __name__ == "__main__":
@@ -52,7 +56,7 @@ if __name__ == "__main__":
     parent_genres = OrderedSet(parent_genres)
 
     # convert class column to integers
-    str_column_to_int(dataset, len(dataset[0])-1)
+    unique = str_column_to_int(dataset, len(dataset[0])-1)
     
     for i in range(len(dataset)):
         # print(i[5])
@@ -63,7 +67,7 @@ if __name__ == "__main__":
     # print(dataset)
     # print(class_lables)
     clf = GaussianNB()
-
+    
     # print(dataset)
     clf.fit(dataset,class_lables)
 
@@ -118,6 +122,28 @@ if __name__ == "__main__":
 
     # print(prior_probs)
     print(prediction_distrabution)
+
+    unique = list(unique)
+    prediction_distrabution = tuple(prediction_distrabution[0])
+    print(type(unique))
+    print(type(prediction_distrabution))
+    
+
+    y_pos = np.arange(len(unique))
+    # Create bars
+    plt.bar(y_pos, prediction_distrabution)
+
+    # Create names on the x-axis
+    plt.xticks(y_pos, unique)
+    
+    fig = plt.gcf()
+    fig.set_size_inches(18.5, 10.5)
+    # Show graphic
+    plt.show()
+
+
+
+
     # for genre in parent_genres:
 
     # print(prior_probs[bruh][0])
