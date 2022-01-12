@@ -13,33 +13,19 @@ import matplotlib.pyplot as plt
 
 def str_column_to_int(dataset, column):
     class_values = [row[column] for row in dataset]
-    # print(set(class_values))
     unique = OrderedSet(class_values)
-    # print(unique)
     lookup = dict()
     for i, value in enumerate(unique):
         lookup[value] = i
         print('[%s] => %d' % (value, i))
     for row in dataset:
         row[column] = lookup[row[column]]
-    # print(lookup)
     # return lookup
     return unique
 
 
 if __name__ == "__main__":
-
-    # iris = load_iris()
-
-    # print(len(iris.data)) #feature data list
-    # print(len(iris.feature_names)) #feature names list
-    # print(len(iris.target)) #class lables list
-
-    # dfTwo.to_csv("test2.csv", index=False, mode=1, header=False)
     dataframe = pd.read_csv('datasets/csv_data/song_dataset.csv')
-    # print(dataset['song'])
-
-    # Make a prediction with Naive Bayes on Iris Dataset
     dataset = list()
     itty_tracker = 0
     class_lables = list()
@@ -49,9 +35,6 @@ if __name__ == "__main__":
     for column in range(1268):
         dataset.append([float(dataframe['q1'][column]),float(dataframe['q2'][column]),float(dataframe['q3'][column]),float(dataframe['q4'][column]),float(dataframe['q5'][column]),dataframe['subgenre'][column]])
         parent_genres.append(dataframe['genre'][column])
-        # itty_tracker += 1
-        # if itty_tracker%3 == 0:
-        #     prior_probs.append([dataframe['subgenre'][column],dataframe['prior_prob'][column]])
 
     parent_genres = OrderedSet(parent_genres)
 
@@ -59,16 +42,11 @@ if __name__ == "__main__":
     unique = str_column_to_int(dataset, len(dataset[0])-1)
     
     for i in range(len(dataset)):
-        # print(i[5])
         class_lables.append(dataset[i][5])
         dataset[i].pop(5)
-        # print(dataset[i])
 
-    # print(dataset)
-    # print(class_lables)
     clf = GaussianNB()
     
-    # print(dataset)
     clf.fit(dataset,class_lables)
 
     questions = [
@@ -83,7 +61,6 @@ if __name__ == "__main__":
 
     for question in questions:
         response = input(question)
-        # answers.append(input(question))
         while True:
             if response.upper() == 'A':
                 answers.append(1.0)
@@ -108,19 +85,11 @@ if __name__ == "__main__":
 
     print(answers)
 
-    # print(clf.predict_proba([[1.0,2.0,1.0,2.0,1.0]]))
-    # print(clf.predict([[1.0,2.0,1.0,2.0,4.0]]))
-
-    # plt.scatter(dataset[:, 0], dataset[:, 1], c=class_lables, s=10, cmap='RdBu');
-
-    # print(clf.predict([answers[0],answers[1],answers[2],answers[3],answers[4]]))
-
     predicted_song = clf.predict([answers])
 
     prediction_distrabution = clf.predict_proba([answers])
     print(predicted_song)
 
-    # print(prior_probs)
     print(prediction_distrabution)
 
     unique = list(unique)
@@ -135,20 +104,8 @@ if __name__ == "__main__":
 
     # Create names on the x-axis
     plt.xticks(y_pos, unique)
-    
+
     fig = plt.gcf()
     fig.set_size_inches(18.5, 10.5)
     # Show graphic
     plt.show()
-
-
-
-
-    # for genre in parent_genres:
-
-    # print(prior_probs[bruh][0])
-    
-
-    # gnb = GaussianNB()
-
-    # gnb.fit(df,iris.target)
