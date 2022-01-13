@@ -4,11 +4,11 @@ start:
 	python3 src/muzyka_start.py
 
 generate:
-	python3 src/muzyka_genreate.py
+	python3 src/muzyka_generate.py
 
 web:
 	source src/web/env/bin/activate
 	python3 src/web/app.py
 
 clean:
-	rm datasets/csv_data/song_dataset_out.csv
+	rm datasets/csv_data/song_data_out.csv

@@ -25,7 +25,7 @@ def str_column_to_int(dataset, column):
 
 
 if __name__ == "__main__":
-    dataframe = pd.read_csv('datasets/csv_data/song_dataset.csv')
+    dataframe = pd.read_csv('datasets/csv_data/song_data.csv')
     dataset = list()
     itty_tracker = 0
     class_lables = list()

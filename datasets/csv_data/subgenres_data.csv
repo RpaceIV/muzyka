@@ -1,4 +1,4 @@
-Name,,,prior_prob,,,song_amount,,genre
+Name,,,prior_prob,,,song_amount,,main_genre
 deep house,0.999824592,,0.010278456,,12.33414716,13,,electronic
 breakcore,0.46009472,,0.004729893,,5.675871578,6,,electronic
 vaporwave,0.73794071,,0.007586222,,9.103466134,10,,electronic
