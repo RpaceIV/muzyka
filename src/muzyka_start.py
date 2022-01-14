@@ -1,27 +1,20 @@
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_iris
 from sklearn.naive_bayes import GaussianNB
-import seaborn as sns; sns.set(color_codes=True)
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-from sklearn.naive_bayes import GaussianNB
 from ordered_set import OrderedSet
-import numpy as np
-import matplotlib.pyplot as plt
-# %matplotlib inline
 
-def strColumnToInt(song_dataset, column):
-    class_values = [row[column] for row in song_dataset]
-    unique = OrderedSet(class_values)
+
+def strColumnToInt(class_lables):
+    unique_subgenres = OrderedSet(class_lables)
     lookup = dict()
-    for i, value in enumerate(unique):
+    for i, value in enumerate(unique_subgenres):
         lookup[value] = i
         print('[%s] => %d' % (value, i))
-    for row in song_dataset:
-        row[column] = lookup[row[column]]
-    # return lookup
-    return unique
+    for i in range(len(class_lables)):
+        class_lables[i] = lookup[class_lables[i]]
+    return unique_subgenres
+
 
 def answerQuestions(questions,answers):
     for question in questions:
@@ -49,9 +42,11 @@ def answerQuestions(questions,answers):
                 print("Invalid response try again \n")
     return answers
 
+
+
 if __name__ == "__main__":
     songDF = pd.read_csv('datasets/csv_data/song_data.csv')
-    song_dataset = list()
+    song_features = list()
     class_lables = list()
     
     questions = [
@@ -65,38 +60,30 @@ if __name__ == "__main__":
     response = ''
 
     for column in range(songDF.shape[0]): #shape[0] returns the size of rows in the sheet
-        song_dataset.append([float(songDF['q1'][column]),
+        song_features.append([float(songDF['q1'][column]),
                             float(songDF['q2'][column]),
                             float(songDF['q3'][column]),
                             float(songDF['q4'][column]),
-                            float(songDF['q5'][column]),
-                            songDF['subgenre'][column]])
+                            float(songDF['q5'][column])])
 
-    # convert class labels to integers
-    unique = strColumnToInt(song_dataset, len(song_dataset[0])-1)
+        class_lables.append(songDF['subgenre'][column])
     
-    #Seperate the class label from the
-    for i in range(len(song_dataset)):
-        class_lables.append(song_dataset[i][5])
-        song_dataset[i].pop(5)
-
-    # print(class_lables)
-    # print(song_dataset)
-
-    clf = GaussianNB()
-    clf.fit(song_dataset,class_lables)
+    unique_subgenres = strColumnToInt(class_lables)
+    
+    gaussNetwork = GaussianNB()
+    gaussNetwork.fit(song_features,class_lables)
     
     answers = answerQuestions(questions,answers)
 
-    predicted_song = clf.predict([answers])
-    prediction_distrabution = clf.predict_proba([answers])
+    predicted_song = gaussNetwork.predict([answers])
+    prediction_distrabution = gaussNetwork.predict_proba([answers])
     print(predicted_song)
     print(prediction_distrabution)
 
     #Generate the bar graph of subgenre predictions
-    y_pos = np.arange(len(list(unique)))
+    y_pos = np.arange(len(list(unique_subgenres)))
     plt.bar(y_pos, tuple(prediction_distrabution[0]))
-    plt.xticks(y_pos, list(unique))
+    plt.xticks(y_pos, list(unique_subgenres))
     fig = plt.gcf()
     fig.set_size_inches(18.5, 10.5)
     plt.show()
