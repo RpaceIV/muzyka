@@ -1,4 +1,4 @@
-playlist_name,song,artist,album,genre,subgenre,prior_prob,q1,q2,q3,q4,q5,popularity,danceability,energy,loudness,valence,subg_song_count
+playlist_name,song,artist,album,main_genre,subgenre,prior_prob,q1,q2,q3,q4,q5,popularity,danceability,energy,loudness,valence,subg_song_count
 The Sound of Deep House,Finally,Kings Of Tomorrow,It's In the Lifestyle (Limited Edition),electronic,deep house,0.010278456,1,2,1,2,1,59,0.859,0.584,-10.933,0.833,13
 The Sound of Deep House,You're in My System - Dennis Quin Vocal Mix,Kerri Chandler,You're in My System (Dennis Quin Remixes),electronic,deep house,0.010278456,2,2,1,2,1,47,0.841,0.807,-5.419,0.475,6
 The Sound of Deep House,Hey Hey,Dennis Ferrer,Hey Hey,electronic,deep house,0.010278456,2,2,1,2,1,52,0.728,0.868,-5.446,0.921,10

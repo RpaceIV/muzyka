@@ -1,18 +1,11 @@
-from __future__ import print_function
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
-from pprint import pprint
-from collections import namedtuple
-
-import json
 import time
-import sys
 import pandas as pd
 
-
+# from collections import namedtuple
 # SubGenre = namedtuple('SubGenre', 'name,prior_prob,song_amount')
 # SongInfo = namedtuple('SongInfo', 'song,artist,album,main_genre,subgenre,prior_prob,q1,q2,q3,q4,q5')
-
 
 class SubGenre:
     def __init__(self, name, prior_prob, song_amount, parent_genre):
@@ -38,11 +31,14 @@ class Song:
         self.popularity = 0
         self.metadata = dict()
 
+
+'''This fills a row of the selected csv given data for a given row'''
 def fillSongData(row_data):
     songDF = pd.DataFrame(row_data)
     songDF.to_csv("datasets/csv_data/song_data_out.csv", index=False, mode='a', header=False)
 
 
+'''This takes a song and gets the features from it'''
 def answerquestion(song):
     '''Q1'''
     if song.popularity > 58:
@@ -209,7 +205,6 @@ def main(preferred_playlist, subg, not_preferred):
                                fields='items.track.id,total',
                                additional_types=['track'])
 
-
     for s in range(subg.song_amount):  # range(subg.song_amount):
         song = Song(subg.parent_genre, subg.name, subg.prior_prob)
         song.trackid = tracks['items'][s]['track']['id']
@@ -220,22 +215,21 @@ def main(preferred_playlist, subg, not_preferred):
         song.artist = track['album']['artists'][0]['name']
         song.album = track['album']['name']
 
-        print('\n', song.name)  # Name
-        print(song.artist)  # artist
-        print(song.album, '\n')  # album
+        print('\n', song.name,
+            '\n', song.artist,
+            '\n', song.album) 
 
         '''Audio Features'''
         spotAPI.trace = True
         song.metadata = spotAPI.audio_features(song.trackid)
         song.popularity = track['popularity']
 
-        print()
-        print(song.popularity)
-        print(song.metadata[0]['danceability'])
-        print(song.metadata[0]['energy'])
-        print(song.metadata[0]['loudness'])
-        print(song.metadata[0]['valence'])
-        print()
+        print(song.popularity, 
+            '\n', song.metadata[0]['danceability'], 
+            '\n', song.metadata[0]['energy'], 
+            '\n', song.metadata[0]['loudness'], 
+            '\n',song.metadata[0]['valence'], 
+            '\n')
 
         song = answerquestion(song)
 
@@ -258,7 +252,6 @@ if __name__ == "__main__":
     table_header = [['playlist_name', 'song', 'artist', 'album', 'main_genre', 'subgenre', 'prior_prob', 'q1',
             'q2', 'q3', 'q4', 'q5', 'popularity', 'danceability', 'energy', 'loudness', 'valence']]
     fillSongData(table_header)
-
 
     for g in range(subg_amount):
         subg = SubGenre(subgDF['Name'][g], subgDF['prior_prob'][g], int(subgDF['song_amount'][g]), subgDF['main_genre'][g])
