@@ -1,8 +1,16 @@
+import sys
+
 import numpy as np
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 from ordered_set import OrderedSet
+
+#Fancy Output Libaries
+from colorama import init
+init(strip=not sys.stdout.isatty()) # strip colors if stdout is redirected
+from termcolor import cprint 
+from pyfiglet import figlet_format
 
 
 def strColumnToInt(class_lables):
@@ -10,7 +18,13 @@ def strColumnToInt(class_lables):
     lookup = dict()
     for i, value in enumerate(unique_subgenres):
         lookup[value] = i
-        print('[%s] => %d' % (value, i))
+        if(i%3 == 0):
+            print('[%s] => %d' % (value, i), end= '\t')
+        elif(i%2 == 0):
+            print('[%s] => %d' % (value, i), end= '\t')
+        else:
+            print('[%s] => %d' % (value, i))
+
     for i in range(len(class_lables)):
         class_lables[i] = lookup[class_lables[i]]
     return unique_subgenres
@@ -43,18 +57,22 @@ def answerQuestions(questions,answers):
     return answers
 
 
-
 if __name__ == "__main__":
+    print("=================================================================================")
+    cprint(figlet_format('muzyka', font='isometric1', width = 100 ),
+       'white', attrs=['bold'])
+    print("=================================================================================")
+
     songDF = pd.read_csv('datasets/csv_data/song_data.csv')
     song_features = list()
     class_lables = list()
     
     questions = [
-    "Do you like pop?\na) yes \tb)no \n :",
-    "Do you like foreign music outside of the United States?\na) yes \tb)no \n :",
-    "What is your favorite main genre?\na) Electronic \tb) Rap \n \nc) Rock \td) Jazz \n\ne) Classical \n :",
-    "Do you like beats or vocals?\na) beats \tb) vocals \n :",
-    "What mood do you want to be in?\na) Happy \tb) Sad \n c) Angry \td) Hyped \n e) Relaxed \td) Sensual \n :"]
+    "\n\nDo you like pop?\na) yes \tb)no \n :",
+    "\nDo you like foreign music outside of the United States?\na) yes \tb)no \n :",
+    "\nWhat is your favorite main genre?\na) Electronic \tb) Rap \nc) Rock \td) Jazz \ne) Classical \n :",
+    "\nDo you like beats or vocals?\na) beats \tb) vocals \n :",
+    "\nWhat mood do you want to be in?\na) Happy \tb) Sad \n c) Angry \td) Hyped \n e) Relaxed \td) Sensual \n :"]
 
     answers = []
     response = ''
@@ -77,8 +95,12 @@ if __name__ == "__main__":
 
     predicted_song = gaussNetwork.predict([answers])
     prediction_distrabution = gaussNetwork.predict_proba([answers])
-    print(predicted_song)
-    print(prediction_distrabution)
+    
+    print('\n ----------------------------')
+    print('| Your Subgenre is: ',unique_subgenres[int(predicted_song)],'! |')
+    print(' ----------------------------\n\n')
+
+    print('Subgenre Distrabution: \n',prediction_distrabution)
 
     #Generate the bar graph of subgenre predictions
     y_pos = np.arange(len(list(unique_subgenres)))
