@@ -36,7 +36,7 @@ def index():
 @app.route('/', methods=['POST'])
 def my_form_post():
 
-    dataframe = pd.read_csv('datasets/csv_data/song_dataset.csv')
+    dataframe = pd.read_csv('datasets/csv_data/song_data.csv')
     # print(dataset['song'])
 
     # Make a prediction with Naive Bayes on Iris Dataset
@@ -49,7 +49,7 @@ def my_form_post():
     for column in range(1268):
         dataset.append([float(dataframe['q1'][column]), float(dataframe['q2'][column]), float(dataframe['q3'][column]), float(
             dataframe['q4'][column]), float(dataframe['q5'][column]), dataframe['subgenre'][column]])
-        parent_genres.append(dataframe['genre'][column])
+        parent_genres.append(dataframe['main_genre'][column])
         # itty_tracker += 1
         # if itty_tracker%3 == 0:
         #     prior_probs.append([dataframe['subgenre'][column],dataframe['prior_prob'][column]])
@@ -119,7 +119,7 @@ def my_form_post():
     prediction_distrabution = clf.predict_proba([answers])
 
     subgenre_names = pd.read_csv(
-        'datasets/csv_data/curated_subgenres_data.csv')
+        'datasets/csv_data/subgenres_data.csv')
     # subgenre_name.index.values[int(predicted_song)+2]
     # print(subgenre_names.iloc[int(predicted_song)]['Name'])
     subgenre_nm = subgenre_names.iloc[int(predicted_song)]['Name']
